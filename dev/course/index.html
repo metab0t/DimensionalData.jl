@@ -4,11 +4,11 @@ A = DimensionalArray(rand(5, 5), (X, Y))</code></pre><pre><code class="language-
  X: Base.OneTo(5)
  Y: Base.OneTo(5)
 and data: 5×5 Array{Float64,2}
- 0.697438  0.519793  0.579891  0.78984   0.896992
- 0.630684  0.951441  0.396175  0.588533  0.777095
- 0.124556  0.656352  0.436809  0.403536  0.655324
- 0.14491   0.203759  0.15631   0.377637  0.601659
- 0.682719  0.791685  0.824086  0.914315  0.766542</code></pre><p>But often we want to provide values for the dimension.</p><pre><code class="language-julia">using Dates
+ 0.124234  0.814415  0.478057  0.106303   0.572746
+ 0.13954   0.145966  0.445807  0.0699488  0.199719
+ 0.822022  0.515718  0.503035  0.722101   0.87085 
+ 0.681091  0.202658  0.607074  0.646633   0.174663
+ 0.982857  0.388006  0.32566   0.823715   0.878001</code></pre><p>But often we want to provide values for the dimension.</p><pre><code class="language-julia">using Dates
 t = Ti(DateTime(2001):Month(1):DateTime(2001,12))
 x = X(10:10:100)</code></pre><pre><code class="language-none">dimension X: 
 val: 10:10:100
@@ -18,69 +18,69 @@ type: X{StepRange{Int64,Int64},Auto{AutoOrder},Nothing}</code></pre><p>Here both
  Time (type Ti): 2001-01-01T00:00:00:1 month:2001-12-01T00:00:00
  X: 10:10:100
 and data: 12×10 Array{Float64,2}
- 0.391112    0.966359   0.0937224  …  0.426845   0.10665   0.268657 
- 0.00447514  0.942782   0.452592      0.683152   0.432477  0.153053 
- 0.172677    0.0432312  0.546072      0.949435   0.215944  0.148859 
- 0.037486    0.446265   0.198194      0.566245   0.791341  0.712071 
- 0.506345    0.370894   0.790593      0.845976   0.56583   0.985938 
- 0.456129    0.348586   0.291867   …  0.0140447  0.199143  0.156476 
- 0.762085    0.0928787  0.0902872     0.116547   0.567923  0.0838331
- 0.829053    0.159444   0.182146      0.209905   0.747956  0.240814 
- 0.83816     0.749497   0.830107      0.520246   0.28977   0.180901 
- 0.0418058   0.816464   0.823954      0.783418   0.831945  0.0661843
- 0.423886    0.904631   0.501941   …  0.845766   0.474437  0.401205 
- 0.44952     0.115439   0.987319      0.0982526  0.181351  0.357322 </code></pre><p>The length of each dimension index has to match the size of the corresponding array axis. </p><h2 id="Indexing-the-array-by-name-and-index-1"><a class="docs-heading-anchor" href="#Indexing-the-array-by-name-and-index-1">Indexing the array by name and index</a><a class="docs-heading-anchor-permalink" href="#Indexing-the-array-by-name-and-index-1" title="Permalink"></a></h2><p>Dimensions can be used to index the array by name, without having to worry about the order of the dimensions.</p><p>The simplest case is to select a dimension by index. Let&#39;s say every 2nd point of the <code>Ti</code> dimension and every 3rd point of the <code>X</code> dimension. This is done with the simple <code>Ti(range)</code> syntax like so:</p><pre><code class="language-julia">A[X(1:3:end), Ti(1:2:end)]</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
+ 0.343664    0.897369  0.09075     0.358339  …  0.738687  0.181247   0.47939 
+ 0.153175    0.120298  0.43409     0.345401     0.987582  0.5783     0.563851
+ 0.583057    0.442422  0.837493    0.81862      0.909807  0.104946   0.43936 
+ 0.00362908  0.92382   0.465027    0.173695     0.287137  0.174688   0.946966
+ 0.642801    0.631206  0.223112    0.697815     0.826442  0.676093   0.902323
+ 0.246689    0.911526  0.143225    0.638017  …  0.234986  0.594588   0.600614
+ 0.835995    0.395993  0.754298    0.701687     0.064437  0.0655353  0.745093
+ 0.0639254   0.355885  0.139866    0.95428      0.099175  0.155795   0.861384
+ 0.0963263   0.183323  0.530575    0.572876     0.213575  0.543014   0.101169
+ 0.0922585   0.211299  0.0780916   0.25092      0.258893  0.411801   0.635998
+ 0.140349    0.613563  0.341353    0.321043  …  0.961157  0.388934   0.223131
+ 0.651446    0.152172  0.00885705  0.820534     0.231759  0.0610812  0.25591 </code></pre><p>The length of each dimension index has to match the size of the corresponding array axis. </p><h2 id="Indexing-the-array-by-name-and-index-1"><a class="docs-heading-anchor" href="#Indexing-the-array-by-name-and-index-1">Indexing the array by name and index</a><a class="docs-heading-anchor-permalink" href="#Indexing-the-array-by-name-and-index-1" title="Permalink"></a></h2><p>Dimensions can be used to index the array by name, without having to worry about the order of the dimensions.</p><p>The simplest case is to select a dimension by index. Let&#39;s say every 2nd point of the <code>Ti</code> dimension and every 3rd point of the <code>X</code> dimension. This is done with the simple <code>Ti(range)</code> syntax like so:</p><pre><code class="language-julia">A[X(1:3:end), Ti(1:2:end)]</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
  Time (type Ti): 2001-01-01T00:00:00:2 months:2001-09-01T00:00:00
  X: 10:30:100
 and data: 5×4 Array{Float64,2}
- 0.391112  0.652789  0.350467   0.268657 
- 0.172677  0.266093  0.471764   0.148859 
- 0.506345  0.260402  0.464965   0.985938 
- 0.762085  0.232345  0.0924389  0.0838331
- 0.83816   0.408044  0.757404   0.180901 </code></pre><p>Of course, when specifying only one dimension, all elements of the other dimensions are assumed to be included:</p><pre><code class="language-julia">A[X(1:3:10)]</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
+ 0.343664   0.358339  0.745532  0.47939 
+ 0.583057   0.81862   0.764676  0.43936 
+ 0.642801   0.697815  0.661391  0.902323
+ 0.835995   0.701687  0.396557  0.745093
+ 0.0963263  0.572876  0.304158  0.101169</code></pre><p>Of course, when specifying only one dimension, all elements of the other dimensions are assumed to be included:</p><pre><code class="language-julia">A[X(1:3:10)]</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
  Time (type Ti): 2001-01-01T00:00:00:1 month:2001-12-01T00:00:00
  X: 10:30:100
 and data: 12×4 Array{Float64,2}
- 0.391112    0.652789   0.350467   0.268657 
- 0.00447514  0.960884   0.875746   0.153053 
- 0.172677    0.266093   0.471764   0.148859 
- 0.037486    0.151783   0.923516   0.712071 
- 0.506345    0.260402   0.464965   0.985938 
- 0.456129    0.893607   0.442829   0.156476 
- 0.762085    0.232345   0.0924389  0.0838331
- 0.829053    0.123778   0.264758   0.240814 
- 0.83816     0.408044   0.757404   0.180901 
- 0.0418058   0.899326   0.678373   0.0661843
- 0.423886    0.0851709  0.894324   0.401205 
- 0.44952     0.224363   0.222923   0.357322 </code></pre><div class="admonition is-info"><header class="admonition-header">Indexing</header><div class="admonition-body"><p>Indexing <code>AbstractDimensionalArray</code>s works with <code>getindex</code>, <code>setindex!</code> and <code>view</code>. The result is still an <code>AbstracDimensionalArray</code>.</p></div></div><h2 id="Selecting-by-name-and-value-1"><a class="docs-heading-anchor" href="#Selecting-by-name-and-value-1">Selecting by name and value</a><a class="docs-heading-anchor-permalink" href="#Selecting-by-name-and-value-1" title="Permalink"></a></h2><p>The above example is useful because one does not have to care about the ordering of the dimensions. But arguably more useful is to be able to select a dimension by its values. For example, we would like to get all values of <code>A</code> where the <code>X</code> dimension is between two values.</p><p>Selecting by value in <code>DimensionalData</code> is done with the <strong>selectors</strong>, which are listed in the <a href="../api/#Selectors-1">Selectors</a> page. This avoids the ambiguity of what happens when the index values of the dimension are also integers (like the case here for the dimension <code>X</code>).</p><p>For simplicity, here we use the <a href="../api/#DimensionalData.Between"><code>Between</code></a> selector, but  others also exist, like <a href="../api/#DimensionalData.At"><code>At</code></a>, <a href="../api/#DimensionalData.Contains"><code>Contains</code></a>, or <a href="../api/#DimensionalData.Near"><code>Near</code></a>.</p><pre><code class="language-julia">A[X(Between(12, 35)), Ti(Between(Date(2001, 5), Date(2001, 7)))]</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
+ 0.343664    0.358339  0.745532  0.47939 
+ 0.153175    0.345401  0.842497  0.563851
+ 0.583057    0.81862   0.764676  0.43936 
+ 0.00362908  0.173695  0.955531  0.946966
+ 0.642801    0.697815  0.661391  0.902323
+ 0.246689    0.638017  0.04463   0.600614
+ 0.835995    0.701687  0.396557  0.745093
+ 0.0639254   0.95428   0.497276  0.861384
+ 0.0963263   0.572876  0.304158  0.101169
+ 0.0922585   0.25092   0.327921  0.635998
+ 0.140349    0.321043  0.979028  0.223131
+ 0.651446    0.820534  0.512724  0.25591 </code></pre><div class="admonition is-info"><header class="admonition-header">Indexing</header><div class="admonition-body"><p>Indexing <code>AbstractDimensionalArray</code>s works with <code>getindex</code>, <code>setindex!</code> and <code>view</code>. The result is still an <code>AbstracDimensionalArray</code>.</p></div></div><h2 id="Selecting-by-name-and-value-1"><a class="docs-heading-anchor" href="#Selecting-by-name-and-value-1">Selecting by name and value</a><a class="docs-heading-anchor-permalink" href="#Selecting-by-name-and-value-1" title="Permalink"></a></h2><p>The above example is useful because one does not have to care about the ordering of the dimensions. But arguably more useful is to be able to select a dimension by its values. For example, we would like to get all values of <code>A</code> where the <code>X</code> dimension is between two values.</p><p>Selecting by value in <code>DimensionalData</code> is done with the <strong>selectors</strong>, which are listed in the <a href="../api/#Selectors-1">Selectors</a> page. This avoids the ambiguity of what happens when the index values of the dimension are also integers (like the case here for the dimension <code>X</code>).</p><p>For simplicity, here we use the <a href="../api/#DimensionalData.Between"><code>Between</code></a> selector, but  others also exist, like <a href="../api/#DimensionalData.At"><code>At</code></a>, <a href="../api/#DimensionalData.Contains"><code>Contains</code></a>, or <a href="../api/#DimensionalData.Near"><code>Near</code></a>.</p><pre><code class="language-julia">A[X(Between(12, 35)), Ti(Between(Date(2001, 5), Date(2001, 7)))]</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
  Time (type Ti): 2001-05-01T00:00:00:1 month:2001-07-01T00:00:00
  X: 20:10:30
 and data: 3×2 Array{Float64,2}
- 0.370894   0.790593 
- 0.348586   0.291867 
- 0.0928787  0.0902872</code></pre><h2 id="Selecting-by-position-1"><a class="docs-heading-anchor" href="#Selecting-by-position-1">Selecting by position</a><a class="docs-heading-anchor-permalink" href="#Selecting-by-position-1" title="Permalink"></a></h2><p>So far, the selection protocols we have mentioned work by specifying the <em>name</em> of the dimension, without worry about the order.</p><p>However normal indexing also works by specifying dimensions by position. This functionality also covers <a href="../api/#DimensionalData.Selector"><code>Selector</code></a>s.</p><p>Continuing to use <code>A</code> we defined above, you can see how this works by comparing the statements without and with names:</p><pre><code class="language-julia">A[:, Between(12, 35)] == A[X(Between(12, 35))]
+ 0.631206  0.223112
+ 0.911526  0.143225
+ 0.395993  0.754298</code></pre><h2 id="Selecting-by-position-1"><a class="docs-heading-anchor" href="#Selecting-by-position-1">Selecting by position</a><a class="docs-heading-anchor-permalink" href="#Selecting-by-position-1" title="Permalink"></a></h2><p>So far, the selection protocols we have mentioned work by specifying the <em>name</em> of the dimension, without worry about the order.</p><p>However normal indexing also works by specifying dimensions by position. This functionality also covers <a href="../api/#DimensionalData.Selector"><code>Selector</code></a>s.</p><p>Continuing to use <code>A</code> we defined above, you can see how this works by comparing the statements without and with names:</p><pre><code class="language-julia">A[:, Between(12, 35)] == A[X(Between(12, 35))]
 A[:, 1:5] == A[X(1:5)]
 A[1:5, :] == A[Ti(1:5)]</code></pre><pre><code class="language-none">true</code></pre><p>Using this approach it is necessary to specify <em>all</em> dimensions by position. </p><p>In addition, to support as base Julia functionality single index access like in standard <code>Array</code>:</p><pre><code class="language-julia">A[1:5]</code></pre><pre><code class="language-none">5-element Array{Float64,1}:
- 0.39111198006920245 
- 0.004475136124187706
- 0.17267719288011318 
- 0.03748599529773733 
- 0.5063454637384095  </code></pre><p>selects the first 5 entries of the underlying array. In the case that <code>A</code> has only one dimension, it will be retained. Multidimensional <code>AbstracDimensionalArray</code> indexed this way will return a regular array.</p><h2 id="Specifying-dims-keyword-arguments-with-Dimension-1"><a class="docs-heading-anchor" href="#Specifying-dims-keyword-arguments-with-Dimension-1">Specifying <code>dims</code> keyword arguments with <code>Dimension</code></a><a class="docs-heading-anchor-permalink" href="#Specifying-dims-keyword-arguments-with-Dimension-1" title="Permalink"></a></h2><p>In many Julia functions like <code>size, sum</code>, you can specify the dimension along which to perform the operation, as an <code>Int</code>. It is also possible to do this using <code>Dimension</code> types with <code>AbstractDimensionalArray</code>:</p><pre><code class="language-julia">sum(A; dims=X)</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
+ 0.3436642271262522  
+ 0.15317530264978485 
+ 0.5830568980302762  
+ 0.003629082838471076
+ 0.6428006498429948  </code></pre><p>selects the first 5 entries of the underlying array. In the case that <code>A</code> has only one dimension, it will be retained. Multidimensional <code>AbstracDimensionalArray</code> indexed this way will return a regular array.</p><h2 id="Specifying-dims-keyword-arguments-with-Dimension-1"><a class="docs-heading-anchor" href="#Specifying-dims-keyword-arguments-with-Dimension-1">Specifying <code>dims</code> keyword arguments with <code>Dimension</code></a><a class="docs-heading-anchor-permalink" href="#Specifying-dims-keyword-arguments-with-Dimension-1" title="Permalink"></a></h2><p>In many Julia functions like <code>size, sum</code>, you can specify the dimension along which to perform the operation, as an <code>Int</code>. It is also possible to do this using <code>Dimension</code> types with <code>AbstractDimensionalArray</code>:</p><pre><code class="language-julia">sum(A; dims=X)</code></pre><pre><code class="language-none">DimensionalArray with dimensions:
  Time (type Ti): 2001-01-01T00:00:00:1 month:2001-12-01T00:00:00
  X: Int64[60]
 and data: 12×1 Array{Float64,2}
- 3.9461 
- 5.2197 
- 3.47087
- 4.46968
- 4.90685
- 3.72488
- 2.94222
- 4.15331
- 5.55011
- 5.87878
- 5.38455
- 3.79485</code></pre><h2 id="Numeric-operations-on-dimension-arrays-and-dimensions-1"><a class="docs-heading-anchor" href="#Numeric-operations-on-dimension-arrays-and-dimensions-1">Numeric operations on dimension arrays and dimensions</a><a class="docs-heading-anchor-permalink" href="#Numeric-operations-on-dimension-arrays-and-dimensions-1" title="Permalink"></a></h2><p>Numeric operations on a <code>AbstractDimensionalArray</code> match base Julia as much as possible. Standard broadcasting and other type of operations across dimensional arrays typically perform as expected while still returning an <code>AbstractDimensionalArray</code> type with correct dimensions.</p><p>In cases where you would like to do some operation on the dimension index, e.g. take the cosines of the values of the dimension <code>X</code> while still keeping the dimensional information of <code>X</code>, you can use the syntax:</p><pre><code class="language-julia">DimensionalArray(cos, x)</code></pre><pre><code class="language-none">DimensionalArray (named cos(X)) with dimensions:
+ 5.03836
+ 5.02446
+ 5.33647
+ 5.30183
+ 5.55105
+ 3.98825
+ 5.06877
+ 4.554  
+ 3.43265
+ 3.30064
+ 5.34957
+ 3.926  </code></pre><h2 id="Numeric-operations-on-dimension-arrays-and-dimensions-1"><a class="docs-heading-anchor" href="#Numeric-operations-on-dimension-arrays-and-dimensions-1">Numeric operations on dimension arrays and dimensions</a><a class="docs-heading-anchor-permalink" href="#Numeric-operations-on-dimension-arrays-and-dimensions-1" title="Permalink"></a></h2><p>Numeric operations on a <code>AbstractDimensionalArray</code> match base Julia as much as possible. Standard broadcasting and other type of operations across dimensional arrays typically perform as expected while still returning an <code>AbstractDimensionalArray</code> type with correct dimensions.</p><p>In cases where you would like to do some operation on the dimension index, e.g. take the cosines of the values of the dimension <code>X</code> while still keeping the dimensional information of <code>X</code>, you can use the syntax:</p><pre><code class="language-julia">DimensionalArray(cos, x)</code></pre><pre><code class="language-none">DimensionalArray (named cos(X)) with dimensions:
  X: 10:10:100
 and data: 10-element Array{Float64,1}
-[-0.839072, 0.408082, 0.154251, -0.666938, 0.964966, -0.952413, 0.633319, -0.110387, -0.448074, 0.862319]</code></pre><h2 id="Referenced-dimensions-1"><a class="docs-heading-anchor" href="#Referenced-dimensions-1">Referenced dimensions</a><a class="docs-heading-anchor-permalink" href="#Referenced-dimensions-1" title="Permalink"></a></h2><p>The reference dimensions record the previous dimensions that an array was selected from. These can be use for plot labelling, and tracking array changes.</p><h2 id="IndexMode-1"><a class="docs-heading-anchor" href="#IndexMode-1">IndexMode</a><a class="docs-heading-anchor-permalink" href="#IndexMode-1" title="Permalink"></a></h2><p>DimensionalData provides types for specifying details about the dimension index. This enables optimisations with <code>Selector</code>s, and modified behaviours such as selection of intervals or points, which will give slightly different results for selectors like <a href="../api/#DimensionalData.Between"><code>Between</code></a>.</p><p>The major categories are <a href="../api/#DimensionalData.Categorical"><code>Categorical</code></a>, <a href="../api/#DimensionalData.Sampled"><code>Sampled</code></a> and <a href="../api/#DimensionalData.NoIndex"><code>NoIndex</code></a>, which are all types of <a href="../api/#DimensionalData.Aligned"><code>Aligned</code></a>. <a href="../api/#DimensionalData.Unaligned"><code>Unaligned</code></a> also exists to handle dimensions with an index that is rotated or otherwise transformed in relation to the underlying array, such as <a href="../api/#DimensionalData.Transformed"><code>Transformed</code></a>. These are a work in progress.</p><p>[<code>Aligned</code>] types will be detected automatically if not specified. A Dimension containing and index of <code>String</code>, <code>Char</code> or <code>Symbol</code> will be labelled with <a href="../api/#DimensionalData.Categorical"><code>Categorical</code></a>. A range will be <a href="../api/#DimensionalData.Sampled"><code>Sampled</code></a>, defaulting to <a href="../api/#DimensionalData.Points"><code>Points</code></a> and <a href="../api/#DimensionalData.Regular"><code>Regular</code></a>. </p><p>See the api docs for specifics about these <a href="../api/#DimensionalData.IndexMode"><code>IndexMode</code></a>s.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Introduction</a><a class="docs-footer-nextpage" href="../api/">API »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 17 April 2020 15:09">Friday 17 April 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+[-0.839072, 0.408082, 0.154251, -0.666938, 0.964966, -0.952413, 0.633319, -0.110387, -0.448074, 0.862319]</code></pre><h2 id="Referenced-dimensions-1"><a class="docs-heading-anchor" href="#Referenced-dimensions-1">Referenced dimensions</a><a class="docs-heading-anchor-permalink" href="#Referenced-dimensions-1" title="Permalink"></a></h2><p>The reference dimensions record the previous dimensions that an array was selected from. These can be use for plot labelling, and tracking array changes.</p><h2 id="IndexMode-1"><a class="docs-heading-anchor" href="#IndexMode-1">IndexMode</a><a class="docs-heading-anchor-permalink" href="#IndexMode-1" title="Permalink"></a></h2><p>DimensionalData provides types for specifying details about the dimension index. This enables optimisations with <code>Selector</code>s, and modified behaviours such as selection of intervals or points, which will give slightly different results for selectors like <a href="../api/#DimensionalData.Between"><code>Between</code></a>.</p><p>The major categories are <a href="../api/#DimensionalData.Categorical"><code>Categorical</code></a>, <a href="../api/#DimensionalData.Sampled"><code>Sampled</code></a> and <a href="../api/#DimensionalData.NoIndex"><code>NoIndex</code></a>, which are all types of <a href="../api/#DimensionalData.Aligned"><code>Aligned</code></a>. <a href="../api/#DimensionalData.Unaligned"><code>Unaligned</code></a> also exists to handle dimensions with an index that is rotated or otherwise transformed in relation to the underlying array, such as <a href="../api/#DimensionalData.Transformed"><code>Transformed</code></a>. These are a work in progress.</p><p>[<code>Aligned</code>] types will be detected automatically if not specified. A Dimension containing and index of <code>String</code>, <code>Char</code> or <code>Symbol</code> will be labelled with <a href="../api/#DimensionalData.Categorical"><code>Categorical</code></a>. A range will be <a href="../api/#DimensionalData.Sampled"><code>Sampled</code></a>, defaulting to <a href="../api/#DimensionalData.Points"><code>Points</code></a> and <a href="../api/#DimensionalData.Regular"><code>Regular</code></a>. </p><p>See the api docs for specifics about these <a href="../api/#DimensionalData.IndexMode"><code>IndexMode</code></a>s.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Introduction</a><a class="docs-footer-nextpage" href="../api/">API »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 20 April 2020 09:47">Monday 20 April 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
