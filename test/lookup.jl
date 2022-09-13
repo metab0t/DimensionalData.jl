@@ -18,6 +18,14 @@ end
     @test order(reverse(lu)) == ForwardOrdered()
 end
 
+@testset "reverse indexing" begin
+    lu = Sampled(1:10, order=ForwardOrdered(), span=Regular(1), sampling=Points())
+    @test order(lu[10:-2:5]) == ReverseOrdered()
+    @test order(lu[1:2:5]) == ForwardOrdered()
+    lu = Categorical(order=ReverseOrdered())
+    @test order(reverse(lu)) == ForwardOrdered()
+end
+
 @testset "getindex" begin
     ind = [10.0, 20.0, 30.0, 40.0, 50.0]
 

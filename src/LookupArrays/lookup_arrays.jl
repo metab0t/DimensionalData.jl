@@ -436,18 +436,6 @@ Base.:(==)(l1::Transformed, l2::Transformed) = typeof(l1) == typeof(l2) && f(l1)
 
 # Common methods
 
-# TODO deal with unordered arrays trashing the index order
-for f in (:getindex, :view, :dotview)
-    @eval begin
-        @propagate_inbounds Base.$f(l::LookupArray, i::AbstractArray) = 
-            rebuild(l; data=Base.$f(parent(l), i))
-        @propagate_inbounds Base.$f(l::LookupArray, i::Int) = Base.$f(parent(l), i)
-        @propagate_inbounds Base.$f(l::AbstractSampled, i::AbstractRange) = 
-            rebuild(l; data=Base.$f(parent(l), i), span=slicespan(l, i))
-        @propagate_inbounds Base.$f(l::NoLookup, i::Int) = i
-    end
-end
-
 slicespan(l::LookupArray, i::Colon) = span(l)
 slicespan(l::LookupArray, i) = _slicespan(span(l), l, i)
 
