@@ -35,19 +35,20 @@ metadata(A::AbstractDimArray) = A.metadata
 layerdims(A::AbstractDimArray) = basedims(A)
 
 """
-    rebuild(A::AbstractDimArray, data, [dims, refdims, name, metadata]) => AbstractDimArray
+    rebuild(A::AbstractDimArray, data, [dims, refdims, name]) => AbstractDimArray
     rebuild(A::AbstractDimArray; kw...) => AbstractDimArray
 
 Rebuild and `AbstractDimArray` with some field changes. All types
 that inherit from `AbstractDimArray` must define this method if they
 have any additional fields or alternate field order.
 
-Implementations can discard arguments like `refdims`, `name` and `metadata`.
+Implementations can discard arguments like `refdims` and `name`.
 
 This method can also be used with keyword arguments in place of regular arguments.
+Additional arguments can be added to the keyword argument method.
 """
 @inline function rebuild(
-    A::AbstractDimArray, data, dims::Tuple=dims(A), refdims=refdims(A), name=name(A)
+    A::AbstractDimArray, data, dims::Tuple=dims(A), refdims=refdims(A), name=name(A), 
 )
     rebuild(A, data, dims, refdims, name, metadata(A))
 end
