@@ -44,7 +44,9 @@ have any additional fields or alternate field order.
 
 Implementations can discard arguments like `refdims`, `name` and `metadata`.
 
-This method can also be used with keyword arguments in place of regular arguments.
+Additional arguments can be added to the keyword argument method. 
+
+For readability it is preferable to use keyword versions for any more than a few arguments.
 """
 @inline function rebuild(
     A::AbstractDimArray, data, dims::Tuple=dims(A), refdims=refdims(A), name=name(A)
@@ -110,11 +112,10 @@ Base.read(A::AbstractDimArray) = A
 # Methods that create copies of an AbstractDimArray #######################################
 
 # Need to cover a few type signatures to avoid ambiguity with base
-# We also need to `deepcopy` all dims and metadata to avoid shared state
 Base.similar(A::AbstractDimArray) =
-    rebuild(A; data=similar(parent(A)), dims=deepcopy(dims(A)), refdims=deepcopy(refdims(A)), name=_noname(A), metadata=deepcopy(metadata(A)))
+    rebuild(A; data=similar(parent(A)), dims=dims(A), refdims=refdims(A), name=_noname(A), metadata=metadata(A))
 Base.similar(A::AbstractDimArray, ::Type{T}) where T =
-    rebuild(A; data=similar(parent(A), T), dims=deepcopy(dims(A)), refdims=deepcopy(refdims(A)), name=_noname(A), metadata=deepcopy(metadata(A)))
+    rebuild(A; data=similar(parent(A), T), dims=dims(A), refdims=refdims(A), name=_noname(A), metadata=metadata(A))
 # We can't resize the dims or add missing dims, so return the unwraped Array type?
 # An alternative would be to fill missing dims with `Anon`, and keep existing
 # dims but strip the Lookup? It just seems a little complicated when the methods
@@ -130,21 +131,21 @@ Base.similar(A::AbstractDimArray, ::Type{T}, I::Tuple{Int,Vararg{Int}}) where T 
 # when the axes are DimUnitRanges we can return an `AbstractDimArray`
 function Base.similar(A::AbstractDimArray, T::Type, shape::Tuple{Dimensions.DimUnitRange,Vararg{Dimensions.DimUnitRange}})
     data = similar(parent(A), T, map(parent, shape))
-    return rebuild(A; data=data, dims=deepcopy(dims(shape)), refdims=(), metadata=NoMetadata())
+    return rebuild(A; data=data, dims=dims(shape), refdims=(), metadata=NoMetadata())
 end
 function Base.similar(
     A::AbstractArray, T::Type, shape::Tuple{Dimensions.DimUnitRange,Vararg{Dimensions.DimUnitRange}}
 )
     data = similar(parent(A), T, map(parent, shape))
     C = dimconstructor(dims(shape))
-    return C(data, deepcopy(dims(shape)))
+    return C(data, dims(shape))
 end
 function Base.similar(
     ::Type{T}, shape::Tuple{Dimensions.DimUnitRange,Vararg{Dimensions.DimUnitRange}}
 ) where {T<:AbstractArray}
     data = similar(T, map(parent, shape))
     C = dimconstructor(dims(shape))
-    return C(data, deepcopy(dims(shape)))
+    return C(data, dims(shape))
 end
 # With Dimensions we can return an `AbstractDimArray`
 Base.similar(A::AbstractDimArray, D::DimTuple) = Base.similar(A, eltype(A), D) 
@@ -152,7 +153,7 @@ Base.similar(A::AbstractDimArray, D::Dimension...) = Base.similar(A, eltype(A), 
 Base.similar(A::AbstractDimArray, ::Type{T}, D::Dimension...) where T =
     Base.similar(A, T, D) 
 Base.similar(A::AbstractDimArray, ::Type{T}, D::DimTuple) where T =
-    rebuild(A; data=similar(parent(A), T, size(D)), dims=deepcopy(D), refdims=(), metadata=NoMetadata())
+    rebuild(A; data=similar(parent(A), T, size(D)), dims=D, refdims=(), metadata=NoMetadata())
 Base.similar(A::AbstractDimArray, ::Type{T}, D::Tuple{}) where T =
     rebuild(A; data=similar(parent(A), T, ()), dims=(), refdims=(), metadata=NoMetadata())
 
